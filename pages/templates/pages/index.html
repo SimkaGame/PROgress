@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
     <head>
@@ -12,7 +14,7 @@
 
                     <div class="d-flex align-items-center">
                         <a class="navbar-brand" href="#">
-                            <img style="height: 64px;" src="main.jpg" alt="Ошибка загрузки фото"/>
+                            <img style="height: 64px;" src="{% static 'pages/main.jpg' %}" alt="Ошибка загрузки фото"/>
                         </a>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
