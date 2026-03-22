@@ -1,0 +1,27 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}PROgress – о проекте{% endblock %}
+
+{% block content %}
+
+    <section class="py-5">
+        <div class="container">
+            <h1 class="mb-4">О проекте PROgress</h1>
+            <p class="lead">Мы делаем процесс саморазвития увлекательным и понятным.</p>
+
+            <h3 class="mt-5">Зачем это нужно</h3>
+            <p>Маленькие ежедневные шаги + видимый прогресс = мотивация, которая не пропадает через неделю.</p>
+
+            <h3 class="mt-4">Что уже работает</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Простой и приятный интерфейс</li>
+                <li class="list-group-item">Начальное меню</li>
+            </ul>
+
+            <div class="mt-5">
+                <a href="{% url 'home' %}" class="btn btn-primary btn-lg">На главную</a>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
