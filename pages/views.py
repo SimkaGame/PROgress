@@ -1,9 +1,13 @@
 from django.shortcuts import render
+from .models import ProjectGoal
 
 def index(request):
+    goals = ProjectGoal.objects.all()
+    
     context = {
         'title': 'PROgress – главная страница',
         'welcome_text': 'Сервис для отслеживания задач и личного развития',
+        'goals': goals,  # Добавили список целей в контекст
     }
     return render(request, 'pages/index.html', context)
 
