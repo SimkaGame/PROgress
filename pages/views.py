@@ -7,18 +7,18 @@ def index(request):
     context = {
         'title': 'PROgress – главная страница',
         'welcome_text': 'Сервис для отслеживания задач и личного развития',
-        'goals': goals,  # Добавили список целей в контекст
+        'goals': goals,
     }
-    return render(request, 'pages/index.html', context)
+    return render(request, 'index.html', context)
 
 def about(request):
-    return render(request, 'pages/about.html')
+    return render(request, 'about.html')
 
 def daily(request):
-    return render(request, 'pages/daily.html')
+    return render(request, 'daily.html')
 
 def progress(request):
-    return render(request, 'pages/progress.html')
+    return render(request, 'progress.html')
 
 def game(request):
-    return render(request, 'pages/game.html')
+    return render(request, 'game.html')
