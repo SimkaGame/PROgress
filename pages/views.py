@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import ProjectGoal
+from django.shortcuts import render, get_object_or_404
+from .models import ProjectGoal
 
 def index(request):
     context = {
@@ -14,6 +16,14 @@ def daily(request):
         'goals': goals,
     }
     return render(request, 'daily.html', context)
+
+def goal_detail(request, pk):
+    goal = get_object_or_404(ProjectGoal, pk=pk)
+    
+    context = {
+        'goal': goal
+    }
+    return render(request, 'goal_detail.html', context)
 
 def about(request):
     return render(request, 'about.html')

@@ -16,7 +16,7 @@
                             <p class="card-text">{{ goal.description|truncatewords:20 }}</p>
                             <p class="text-muted small">Приоритет: {{ goal.priority }}</p>
                             <div class="mt-auto">
-                                <a href="#" class="btn btn-sm btn-outline-primary w-100">Выполнить</a>
+                                <a href="{% url 'goal_detail' goal.pk %}" class="btn btn-sm btn-primary w-100">Подробнее</a>
                             </div>
                         </div>
                     </div>
