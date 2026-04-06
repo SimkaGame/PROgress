@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Детали цели: {{ goal.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'daily' %}">Задачи</a></li>
+                    <li class="breadcrumb-item active">{{ goal.name }}</li>
+                </ol>
+            </nav>
+
+            <div class="card shadow">
+                <img src="https://placehold.co/800x400" class="card-img-top" alt="{{ goal.name }}">
+                <div class="card-body">
+                    <h1 class="card-title display-5">{{ goal.name }}</h1>
+                    <p class="badge bg-primary fs-6">Приоритет: {{ goal.priority }}</p>
+                    <hr>
+                    <p class="lead">{{ goal.description|linebreaks }}</p>
+                    
+                    <div class="mt-5 d-flex justify-content-between">
+                        <a href="{% url 'daily' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Назад к списку
+                        </a>
+                        <button class="btn btn-success">Отметить выполненным</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
