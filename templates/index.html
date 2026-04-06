@@ -1,41 +1,61 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}PROgress – главная{% endblock %}
+{% block title %}PROgress – Главная{% endblock %}
 
 {% block content %}
-
-    <section class="py-5 text-center">
+    <section class="py-5 text-center bg-light">
         <div class="container">
             <h1 class="display-4">{{ title|default:"PROgress" }}</h1>
             <p class="lead">{{ welcome_text|default:"Сервис для отслеживания задач и личного развития" }}</p>
-            <a href="#" class="btn btn-primary btn-lg">Начать</a>
+            <a href="{% url 'daily' %}" class="btn btn-primary btn-lg">Начать</a>
         </div>
     </section>
 
     <section class="py-5">
         <div class="container">
             <div class="row">
-                {% for goal in goals %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <img src="https://placehold.co/300" class="card-img-top" alt="{{ goal.name }}">
-                            <div class="card-body d-flex flex-column">
-                                <h5 class="card-title">{{ goal.name }}</h5>
-                                <p class="card-text">{{ goal.description|truncatewords:20 }}</p>
-                                <p class="text-muted small">Приоритет: {{ goal.priority }}</p>
-                                <div class="mt-auto text-center">
-                                    <a href="#" class="btn btn-outline-primary">Подробнее</a>
-                                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://placehold.co/300" class="card-img-top" alt="PROgress+">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">PROgress+</h5>
+                            <p class="card-text">Платная подписка, позволяющая раскрыть весь потенциал нашего проекта.</p>
+                            <div class="mt-auto pt-3 text-center">
+                                <a href="#" class="btn btn-outline-primary w-100">Подробнее</a>
                             </div>
                         </div>
                     </div>
-                {% empty %}
-                    <div class="col-12 text-center">
-                        <p class="lead">К сожалению, целей пока нет.</p>
+                </div> 
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://placehold.co/300" class="card-img-top" alt="Ежедневные задачи">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Ежедневные задачи</h5>
+                            <p class="card-text">Управляйте ежедневными задачами в простом и интуитивном дизайне.</p>
+                            <div class="mt-auto pt-3 text-center">
+                                <a href="{% url 'daily' %}" class="btn btn-outline-primary w-100">Перейти</a>
+                            </div>
+                        </div>
                     </div>
-                {% endfor %}
+                </div> 
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <img src="https://placehold.co/300" class="card-img-top" alt="О проекте">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">О проекте</h5>
+                            <p class="card-text">В чем смысл и как отслеживание прогресса влияет на упрощение геймплея.</p>
+                            <div class="mt-auto pt-3 text-center">
+                                <a href="{% url 'about' %}" class="btn btn-outline-primary w-100">Узнать больше</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+
             </div>
         </div>
     </section>
-
 {% endblock %}
