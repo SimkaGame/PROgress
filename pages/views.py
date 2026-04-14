@@ -1,12 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import ProjectGoal
-from django.shortcuts import render, get_object_or_404
-from .models import ProjectGoal
+from .forms import FeedbackForm
 
 def index(request):
     context = {
         'title': 'PROgress – главная страница',
-        'welcome_text': 'Сервис для отслеживания  игровых задач',
+        'welcome_text': 'Сервис для отслеживания игровых задач',
     }
     return render(request, 'index.html', context)
 
@@ -19,7 +18,6 @@ def daily(request):
 
 def goal_detail(request, pk):
     goal = get_object_or_404(ProjectGoal, pk=pk)
-    
     context = {
         'goal': goal
     }
@@ -33,3 +31,18 @@ def progress(request):
 
 def game(request):
     return render(request, 'game.html')
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            print(f"\n--- NEW FEEDBACK ---")
+            print(f"Subject: {form.cleaned_data['subject']}")
+            print(f"Email: {form.cleaned_data['email']}")
+            print(f"Text: {form.cleaned_data['text']}")
+            print(f"--------------------\n")
+            return redirect('home')
+    else:
+        form = FeedbackForm()
+
+    return render(request, 'contact.html', {'form': form})
