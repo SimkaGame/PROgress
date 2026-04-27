@@ -5,7 +5,10 @@
 {% block content %}
 <section class="py-5">
     <div class="container">
-        <h2 class="mb-4 text-center">Мои игровые квесты</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Мои игровые квесты</h2>
+            <a href="{% url 'goal_create' %}" class="btn btn-success">+ Создать задачу</a>
+        </div>
         <div class="row">
             {% for goal in goals %}
                 <div class="col-md-4 mb-4">

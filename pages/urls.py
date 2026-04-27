@@ -7,6 +7,8 @@ urlpatterns = [
     path('daily/', views.daily, name='daily'),
     path('progress/', views.progress, name='progress'),
     path('game/', views.game, name='game'),
-    path('goal/<int:pk>/', views.goal_detail, name='goal_detail'),
     path('contact/', views.contact_view, name='contact'),
+    path('goal/<int:pk>/', views.goal_detail, name='goal_detail'),
+    path('goal/add/', views.goal_create, name='goal_create'),
+    path('goal/<int:pk>/edit/', views.goal_update, name='goal_update'),
 ]

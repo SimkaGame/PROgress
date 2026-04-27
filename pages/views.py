@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import ProjectGoal
-from .forms import FeedbackForm
+from .forms import FeedbackForm, ProjectGoalForm
 
 def index(request):
     context = {
@@ -44,5 +44,25 @@ def contact_view(request):
             return redirect('home')
     else:
         form = FeedbackForm()
-
     return render(request, 'contact.html', {'form': form})
+
+def goal_create(request):
+    if request.method == 'POST':
+        form = ProjectGoalForm(request.POST)
+        if form.is_valid():
+            new_goal = form.save()
+            return redirect('goal_detail', pk=new_goal.pk)
+    else:
+        form = ProjectGoalForm()
+    return render(request, 'goal_form.html', {'form': form, 'title': 'Создание задачи'})
+
+def goal_update(request, pk):
+    goal = get_object_or_404(ProjectGoal, pk=pk)
+    if request.method == 'POST':
+        form = ProjectGoalForm(request.POST, instance=goal)
+        if form.is_valid():
+            form.save()
+            return redirect('goal_detail', pk=goal.pk)
+    else:
+        form = ProjectGoalForm(instance=goal)
+    return render(request, 'goal_form.html', {'form': form, 'title': 'Редактирование задачи'})
