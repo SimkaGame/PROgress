@@ -1,4 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 from .models import ProjectGoal
 from .forms import FeedbackForm, ProjectGoalForm
 
@@ -46,18 +50,24 @@ def contact_view(request):
         form = FeedbackForm()
     return render(request, 'contact.html', {'form': form})
 
+@login_required
 def goal_create(request):
     if request.method == 'POST':
         form = ProjectGoalForm(request.POST)
         if form.is_valid():
-            new_goal = form.save()
+            new_goal = form.save(commit=False)
+            new_goal.author = request.user
+            new_goal.save()
             return redirect('goal_detail', pk=new_goal.pk)
     else:
         form = ProjectGoalForm()
     return render(request, 'goal_form.html', {'form': form, 'title': 'Создание задачи'})
 
+@login_required
 def goal_update(request, pk):
     goal = get_object_or_404(ProjectGoal, pk=pk)
+    if goal.author != request.user:
+        return redirect('daily')
     if request.method == 'POST':
         form = ProjectGoalForm(request.POST, instance=goal)
         if form.is_valid():
@@ -66,3 +76,8 @@ def goal_update(request, pk):
     else:
         form = ProjectGoalForm(instance=goal)
     return render(request, 'goal_form.html', {'form': form, 'title': 'Редактирование задачи'})
+
+class RegisterView(CreateView):
+    form_class = UserCreationForm
+    template_name = 'registration/register.html'
+    success_url = reverse_lazy('login')

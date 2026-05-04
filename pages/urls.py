@@ -11,4 +11,5 @@ urlpatterns = [
     path('goal/<int:pk>/', views.goal_detail, name='goal_detail'),
     path('goal/add/', views.goal_create, name='goal_create'),
     path('goal/<int:pk>/edit/', views.goal_update, name='goal_update'),
+    path('accounts/register/', views.RegisterView.as_view(), name='register'),
 ]
