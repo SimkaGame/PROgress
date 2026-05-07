@@ -53,11 +53,12 @@ def contact_view(request):
 @login_required
 def goal_create(request):
     if request.method == 'POST':
-        form = ProjectGoalForm(request.POST)
+        form = ProjectGoalForm(request.POST, request.FILES)
         if form.is_valid():
             new_goal = form.save(commit=False)
             new_goal.author = request.user
             new_goal.save()
+            form.save_m2m()
             return redirect('goal_detail', pk=new_goal.pk)
     else:
         form = ProjectGoalForm()
@@ -69,7 +70,7 @@ def goal_update(request, pk):
     if goal.author != request.user:
         return redirect('daily')
     if request.method == 'POST':
-        form = ProjectGoalForm(request.POST, instance=goal)
+        form = ProjectGoalForm(request.POST, request.FILES, instance=goal)
         if form.is_valid():
             form.save()
             return redirect('goal_detail', pk=goal.pk)

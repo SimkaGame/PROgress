@@ -15,8 +15,17 @@
             </nav>
 
             <div class="card shadow">
-                <img src="https://placehold.co/800x400" class="card-img-top" alt="{{ goal.name }}">
+                {% if goal.image %}
+                    <img src="{{ goal.image.url }}" class="card-img-top" alt="{{ goal.name }}">
+                {% else %}
+                    <img src="https://placehold.co/800x400?text=Нет+изображения" class="card-img-top" alt="Placeholder">
+                {% endif %}
                 <div class="card-body">
+                    <div class="mb-3">
+                        {% for tag in goal.tags.all %}
+                            <span class="badge bg-secondary me-1">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
                     <h1 class="card-title display-5">{{ goal.name }}</h1>
                     <p class="badge bg-primary fs-6">Приоритет: {{ goal.priority }}</p>
                     <hr>

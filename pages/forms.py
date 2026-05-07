@@ -18,9 +18,11 @@ class FeedbackForm(forms.Form):
 class ProjectGoalForm(forms.ModelForm):
     class Meta:
         model = ProjectGoal
-        fields = ['name', 'description', 'priority']
+        fields = ['name', 'description', 'priority', 'image', 'tags']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
             'priority': forms.NumberInput(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
         }
