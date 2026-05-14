@@ -18,3 +18,15 @@ class ProjectGoal(models.Model):
 
     def __str__(self):
         return self.name
+
+class Comment(models.Model):
+    goal = models.ForeignKey(ProjectGoal, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField(verbose_name="Текст комментария")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.author} - {self.goal.name}"
