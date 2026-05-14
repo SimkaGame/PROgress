@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from .models import ProjectGoal
-from .forms import FeedbackForm, ProjectGoalForm
+from django.contrib import messages
+from .models import ProjectGoal, Comment
+from .forms import FeedbackForm, ProjectGoalForm, CommentForm
 
 def index(request):
     context = {
@@ -22,10 +23,29 @@ def daily(request):
 
 def goal_detail(request, pk):
     goal = get_object_or_404(ProjectGoal, pk=pk)
+    comments = goal.comments.all()
+    form = CommentForm()
     context = {
-        'goal': goal
+        'goal': goal,
+        'comments': comments,
+        'comment_form': form
     }
     return render(request, 'goal_detail.html', context)
+
+@login_required
+def add_comment(request, pk):
+    goal = get_object_or_404(ProjectGoal, pk=pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.goal = goal
+            comment.author = request.user
+            comment.save()
+            messages.success(request, 'Ваш комментарий добавлен!')
+        else:
+            messages.error(request, 'Ошибка при добавлении комментария.')
+    return redirect('goal_detail', pk=pk)
 
 def about(request):
     return render(request, 'about.html')
@@ -40,11 +60,7 @@ def contact_view(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
         if form.is_valid():
-            print(f"\n--- NEW FEEDBACK ---")
-            print(f"Subject: {form.cleaned_data['subject']}")
-            print(f"Email: {form.cleaned_data['email']}")
-            print(f"Text: {form.cleaned_data['text']}")
-            print(f"--------------------\n")
+            messages.success(request, 'Сообщение отправлено!')
             return redirect('home')
     else:
         form = FeedbackForm()
@@ -59,6 +75,7 @@ def goal_create(request):
             new_goal.author = request.user
             new_goal.save()
             form.save_m2m()
+            messages.success(request, 'Задача создана!')
             return redirect('goal_detail', pk=new_goal.pk)
     else:
         form = ProjectGoalForm()
@@ -73,6 +90,7 @@ def goal_update(request, pk):
         form = ProjectGoalForm(request.POST, request.FILES, instance=goal)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Задача обновлена!')
             return redirect('goal_detail', pk=goal.pk)
     else:
         form = ProjectGoalForm(instance=goal)
@@ -82,3 +100,8 @@ class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration/register.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Регистрация прошла успешно!')
+        return response

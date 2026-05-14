@@ -14,7 +14,7 @@
                 </ol>
             </nav>
 
-            <div class="card shadow">
+            <div class="card shadow mb-5">
                 {% if goal.image %}
                     <img src="{{ goal.image.url }}" class="card-img-top" alt="{{ goal.name }}">
                 {% else %}
@@ -33,16 +33,41 @@
                     
                     <div class="mt-5 d-flex justify-content-between">
                         <div>
-                            <a href="{% url 'daily' %}" class="btn btn-outline-secondary">
-                                Назад к списку
-                            </a>
-                            <a href="{% url 'goal_update' goal.pk %}" class="btn btn-warning">
-                                Редактировать
-                            </a>
+                            <a href="{% url 'daily' %}" class="btn btn-outline-secondary">Назад к списку</a>
+                            <a href="{% url 'goal_update' goal.pk %}" class="btn btn-warning">Редактировать</a>
                         </div>
                         <button class="btn btn-success">Отметить выполненным</button>
                     </div>
                 </div>
+            </div>
+
+            <div class="comments-section">
+                <h3>Комментарии ({{ comments.count }})</h3>
+                <hr>
+                
+                {% if user.is_authenticated %}
+                    <form action="{% url 'add_comment' goal.pk %}" method="post" class="mb-4">
+                        {% csrf_token %}
+                        {{ comment_form.as_p }}
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                {% else %}
+                    <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+                {% endif %}
+
+                {% for comment in comments %}
+                    <div class="card mb-2 border-0 shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <strong>{{ comment.author.username }}</strong>
+                                <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                            </div>
+                            <p class="mb-0">{{ comment.text }}</p>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">Пока нет комментариев.</p>
+                {% endfor %}
             </div>
         </div>
     </div>
